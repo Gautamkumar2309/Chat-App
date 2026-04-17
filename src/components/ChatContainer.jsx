@@ -1,5 +1,5 @@
 import React from 'react'
-import assets from '../assets/assets'
+import assets, { messagesDummyData } from '../assets/assets'
 
 const ChatContainer = ({selectedUser, setSelectedUser}) => {
   return selectedUser ? (
@@ -12,6 +12,19 @@ const ChatContainer = ({selectedUser, setSelectedUser}) => {
         </p>
         <img onClick={() => setSelectedUser(null)}src={assets.arrow_icon} alt="" className='md:hidden max-w-7'/>
         <img src={assets.help_icon} alt="" className='max-md:hidden max-w-5'/>
+      </div>
+      <div className='flex flex-col h-[calc(100%-120px)] overflow-y-scroll p-3
+      pb-6'>
+        {messagesDummyData.map((msg, index)=>(
+          <div key = {index} className={`flex items-end gap-2 justify-end ${msg.
+          senderId !== '680f50e4f10f3cd28382ecf9' && 'flex-row-reverse'}`}>
+            {msg.image ?(
+              <img src = {assets.image} alt= "" />
+            ):(
+              <p></p>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   ) : ( 

@@ -4,6 +4,11 @@ import assets from '../assets/assets'
 const LoginPage = () => {
 
   const [ currState, setCurrState] = useState("Sign up")
+  const [ fullName, setFullName] = useState("")
+  const [email, setEmail] = useState("")
+  const [ password, setPassword] = useState("")
+  const [ bio, setBio] = useState("")
+  const [ isDataSubmitted, setisDataSubmitted] = useState(false)
 
   return (
     <div className='min-h-screen bg-cover bg-center flex items-center
@@ -16,6 +21,26 @@ const LoginPage = () => {
           {currState}
           <img src={assets.arrow_icon} alt="" className='w-5 cursor-pointer'/>
         </h2>
+
+        {currState === "Sign up" && !isDataSubmitted && (
+            <input onChange={(e)=>setFullName(e.target.value)} value={fullName}
+            type="text" className='p-2 border-gray-500 rounded-md
+            focus:outline-none' placeholder="Full Name" required/>
+        )}
+        
+        {!isDataSubmitted && (
+          <>
+          <input onChange={(e)=>setEmail(e.target.value)} value={email}
+          type="email" placeholder='Email Address' required className='p-2
+          border border-gray-500 rounded-md focus:outline-none focus:ring-2
+          focus:ring-indogo-500'/>
+
+          <input onChange={(e)=>setPassword(e.target.value)} value={password}
+          type="password" placeholder='Email Address' required className='p-2
+          border border-gray-500 rounded-md focus:outline-none focus:ring-2
+          focus:ring-indogo-500'/>
+          </>
+        )}
       </form>
     </div>
   )

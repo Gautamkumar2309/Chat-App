@@ -15,7 +15,7 @@ const LoginPage = () => {
     justify-center gap-8 sm:justify-evenly max-sm:flex-col backdrop-blur-2xl'>
       <img src={assets.logo_big} alt="" className='w-[min(30vw,250px)]'/>
       
-      <form className='border-2 bg-white/8 text-white border-gray-500 p-6 flex
+      <form className='border-2 bg-white/10 text-white border-gray-500 p-6 flex
       flex-col gap-6 rounded-lg shadow-lg'>
         <h2 className='font-medium text-2xl flex justify-between items-center'>
           {currState}
@@ -24,8 +24,8 @@ const LoginPage = () => {
 
         {currState === "Sign up" && !isDataSubmitted && (
             <input onChange={(e)=>setFullName(e.target.value)} value={fullName}
-            type="text" className='p-2 border-gray-500 rounded-md
-            focus:outline-none' placeholder="Full Name" required/>
+            type="text" className='p-2 border border-gray-500 rounded-md bg-transparent text-white
+            focus:outline-none focus:ring-2 focus:ring-indigo-500' placeholder="Full Name" required/>
         )}
         
         {!isDataSubmitted && (
@@ -33,12 +33,12 @@ const LoginPage = () => {
           <input onChange={(e)=>setEmail(e.target.value)} value={email}
           type="email" placeholder='Email Address' required className='p-2
           border border-gray-500 rounded-md focus:outline-none focus:ring-2
-          focus:ring-indogo-500'/>
+          focus:ring-indigo-500'/>
 
           <input onChange={(e)=>setPassword(e.target.value)} value={password}
           type="password" placeholder='Password' required className='p-2
           border border-gray-500 rounded-md focus:outline-none focus:ring-2
-          focus:ring-indogo-500'/>
+          focus:ring-indigo-500'/>
           </>
         )}
 
@@ -51,9 +51,18 @@ const LoginPage = () => {
           )
         }
 
-        <button>
-          {currState === "Sign up" ? "Create Account" : "LoginNOW" }
+        <button type='submit' className='py-3 bg-gradient-to-r from-purple-400
+        to-violet-600 text-white rounded-md cursor-pointer'>
+          {currState === "Sign up" ? "Create Account" : "Login Now" }
         </button>
+
+        <div className='flex items-center gap-2 text-sm'>
+          <input type="checkbox" />
+          <p>Agree to the terms of use & privacy policy.</p>
+        </div>
+          
+
+        
       </form>
     </div>
   )

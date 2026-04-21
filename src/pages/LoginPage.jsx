@@ -8,18 +8,28 @@ const LoginPage = () => {
   const [email, setEmail] = useState("")
   const [ password, setPassword] = useState("")
   const [ bio, setBio] = useState("")
-  const [ isDataSubmitted, setisDataSubmitted] = useState(false)
+  const [ isDataSubmitted, setisDataSubmitted] = useState(false);
+
+  const onSubmitHandler = (event)=>{
+    event.preventDefault();
+    if(currState ==='Sign up' && !isDataSubmitted){
+      setisDataSubmitted(true)
+      return;
+    }
+  }
 
   return (
     <div className='min-h-screen bg-cover bg-center flex items-center
     justify-center gap-8 sm:justify-evenly max-sm:flex-col backdrop-blur-2xl'>
       <img src={assets.logo_big} alt="" className='w-[min(30vw,250px)]'/>
       
-      <form className='border-2 bg-white/10 text-white border-gray-500 p-6 flex
-      flex-col gap-6 rounded-lg shadow-lg'>
+      <form onSubmit={onSubmitHandler}className='border-2 bg-white/10 text-white 
+      border-gray-500 p-6 flex flex-col gap-6 rounded-lg shadow-lg'>
         <h2 className='font-medium text-2xl flex justify-between items-center'>
           {currState}
-          <img src={assets.arrow_icon} alt="" className='w-5 cursor-pointer'/>
+          {isDataSubmitted && <img onClick={()=> setisDataSubmitted(false)} src={assets.
+          arrow_icon} alt="" className='w-5 cursor-pointer'/>
+          }
         </h2>
 
         {currState === "Sign up" && !isDataSubmitted && (
@@ -60,17 +70,43 @@ const LoginPage = () => {
           <input type="checkbox" />
           <p>Agree to the terms of use & privacy policy.</p>
         </div>
-        <div className='flex flex-col gap-2'>
+        {/* <div className='flex flex-col gap-2'>
           {currState === "Sign up" ? (
             <p className='text-sm text-gray-600'>Already have an account? <span
-            onC1ick={()=>{setCurrState("Login"); setisDataSubmitted(false)}}
-            className='font-medium text-violet-500 cursor-pointer'>Login here</
-            span></p>
+            onClick={()=>{setCurrState("Login"); setisDataSubmitted(false)}}
+            className='font-medium text-violet-500 cursor-pointer'>Login here</span></p>
           ) : (
-            <p className='text-sm text-gray-600'>Create an account <span
-            className='font-medium text-violet-500 cursor-pointer'>Click here</span></p>
+            <p className='text-sm text-gray-600'>Create an account <span onClick={()
+            => setCurrState("Sign up")} className='font-medium text-violet-500 
+            cursor-pointer'>Click here</span></p>
           )}
-        </div>        
+        </div>         */}
+        <div className='flex flex-col gap-2'>
+  {currState === "Sign up" ? (
+    <p className='text-sm text-gray-600'>
+      Already have an account? 
+      <span
+        onClick={() => {
+          setCurrState("Login");
+          setisDataSubmitted(false);
+        }}
+        className='font-medium text-violet-500 cursor-pointer'
+      >
+        Login here
+      </span>
+    </p>
+  ) : (
+    <p className='text-sm text-gray-600'>
+      Create an account 
+      <span
+        onClick={() => setCurrState("Sign up")}
+        className='font-medium text-violet-500 cursor-pointer'
+      >
+        Click here
+      </span>
+    </p>
+  )}
+</div>
       </form>
     </div>
   )

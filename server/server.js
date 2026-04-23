@@ -1,11 +1,9 @@
 import express from "express";
 import "dotenv/config";
-import dotenv from "dotenv";
 import cors from "cors";
 import http from "http";
 import { connectDB } from "./lib/db.js";
 
-dotenv.config();
 
 const app = express();
 const server = http.createServer(app)

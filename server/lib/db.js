@@ -1,11 +1,23 @@
+// import mongoose from "mongoose";
+
+// export const connectDB = async () => {
+//     try{
+//         mongoose.connection.on('connected',()=> console.log('Database Connected'));
+// /
+//         await mongoose.connect(`${process.env.MONGODB_URI}/chat-app`)
+//     }catch (error){
+//         console.log(error);
+//     }
+// }
 import mongoose from "mongoose";
 
 export const connectDB = async () => {
-    try{
-        mongoose.connection.on('connected',()=> console.log('Database Connected'));
+    try {
+        await mongoose.connect(process.env.MONGODB_URI);
 
-        await mongoose.connect(`${process.env.MONGODB_URI}/chat-app`)
-    }catch (error){
-        console.log(error);
+        console.log("Database Connected"); // 👈 move here
+
+    } catch (error) {
+        console.log("MongoDB Error:", error);
     }
-}
+};

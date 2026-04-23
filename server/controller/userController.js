@@ -50,3 +50,8 @@ export const login = async (req, res) =>{
         res.json({sucess: false, message: error.message})
     }
 }
+
+//controler to check if user is authenticated
+export const checkAuth = (req, res)=>{
+    res.json({sucess: true, user: req.user});
+}

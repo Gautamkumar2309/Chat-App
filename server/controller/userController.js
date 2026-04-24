@@ -1,12 +1,13 @@
 import { generateToken } from "../lib/utils.js";
 import User from "../models/User.js";
 import cloudinary from "../lib/cloudinary.js";
+import bcrypt from "bcrypt";
 
 export const signup = async (req, res) => {
     const{fullName, email,password,bio} = req.body;
 
     try{
-        if(!fullName || !email || !bio){
+        if(!fullName || !email || !bio ||!password){
             return res.json({success: false, message:"Missing Details"})
         }
         const user = await User.findOne({email});
@@ -18,18 +19,17 @@ export const signup = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        const newUSer = await User.create({
+        const newUser = await User.create({
             fullName,email,password: hashedPassword,bio
         });
 
-        const token = generateToken(newUSer._id)
+        const token = generateToken(newUser._id)
 
-        res.json({sucess: true, userData: newUser, token,message: "Account Created successfully"})
+        res.json({success: true, userData: newUser, token,message: "Account Created successfully"})
 
     }catch(error){
         console.log(error.message);
-        res.json({sucess: false, userData: newUser, token,
-        message: error.message})
+        res.json({success: false, message: error.message})
     }
 }
 
@@ -39,22 +39,26 @@ export const login = async (req, res) =>{
         const{email,password} = req.body;
         const userData = await User.findOne({email})
 
+         if(!userData){
+            return res.json({success: false, message: "User not found"});
+        }
+
         const isPasswordCorrect = await bcrypt.compare(password, userData.password);
         if(!isPasswordCorrect){
             return res.json({success: false, message: "Invalid credentials"});
         }
-        const token = generateToken(newUSer._id)
+        const token = generateToken(userData._id)
 
-        res.json({sucess: true, userData: token, token, message: "Login Successful"})
+        res.json({success: true, userData,token, message: "Login Successful"})
     }catch(error){
         console.log(error.message);
-        res.json({sucess: false, message: error.message})
+        res.json({success: false, message: error.message})
     }
 }
 
 //controler to check if user is authenticated
 export const checkAuth = (req, res)=>{
-    res.json({sucess: true, user: req.user});
+    res.json({success: true, user: req.user});
 }
 
 //controller to update user profile details
@@ -64,15 +68,15 @@ export const updateProfile = async(req, res) =>{
         const {profilePic,bio,fullName} =req.body;
 
         const userId = req.user._id;
-        let updateUSer;
+        let updateUser;
 
         if(!profilePic){
-            await User.findByIdAndUpdate(userId, {bio, fullName},{new: true});
+            updateUser= await User.findByIdAndUpdate(userId, {bio, fullName},{new: true});
         }else{
-            const upload  = await cloudinary.uploader.upload(profilepic);
-            updateUSer = await User.findByIdAndUpdate(userId, {profilePic: upload.secure_url,bio,fullName},{new: true});
+            const upload  = await cloudinary.uploader.upload(profilePic);
+            updateUser = await User.findByIdAndUpdate(userId, {profilePic: upload.secure_url,bio,fullName},{new: true});
         }
-        res.json({success: true, user: updateUSer})
+        res.json({success: true, user: updateUser})
     }catch(error){
         console.log(error.message);
         res.json({success: false, message: error.message})

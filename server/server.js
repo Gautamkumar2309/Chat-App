@@ -7,6 +7,8 @@ import userRouter from "./routes/userRoutes.js";
 import messageRouter from "./routes/messageRoute.js";
 import { Server } from "socket.io";
 
+
+
 // Create Express app and HTTP server
 const app = express();
 const server = http.createServer(app)
@@ -32,8 +34,8 @@ io.on("connection" ,(socket)=> {
     socket.on("disconnect",()=>{
         console.log("User disconnected", userId);
         delete userSocketMap[userId]
-        io.emit(" getOnlineUsers ", Object.keys(userSocketMap))
-    })
+        io.emit("getOnlineUsers", Object.keys(userSocketMap))
+    });
 })
 
 //middleware setup

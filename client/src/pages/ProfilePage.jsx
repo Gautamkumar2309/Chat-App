@@ -9,8 +9,8 @@ const ProfilePage = () => {
 
   const[selectedImg, setSelectedImg] = useState(null)
   const navigate = useNavigate();
-  const[name, setName] = useState("Martin Johnson")
-  const[bio ,setBio] = useState("Hi, Everyone, I am USing QuickChat")
+  const[name, setName] = useState(authUser.fullName)
+  const[bio ,setBio] = useState(authUser.bio)
 
   const handleSubmit = async(e)=>{
     e.preventDefault();
@@ -47,7 +47,7 @@ const ProfilePage = () => {
             type="text" required placeholder='your name' className='p-2 border
             border-gray-500 rounded-md focus:outline-none focus:ring-2
             focus:ring-violet-500'/>
-            <textarea onChange={(e)=>setBio(e.target.value)} value={name}
+            <textarea onChange={(e)=>setBio(e.target.value)} value={bio}
             placeholder="Write profile bio" required className="p-2 border
             border-gray-500 rounded-md focus:outline-none focus:ring-2
             focus:ring-violet-500" rows={4}></textarea>
@@ -56,8 +56,8 @@ const ProfilePage = () => {
             to-violet-600 text-white p-2 rounded-full text-lg cursor-pointer">Save</
             button>
         </form>
-        <img className='max-w-44 aspect-square rounded-full mx-10 max-sm:mt-10'
-         src={assets.logo_icon} alt="" />
+        <img className={`max-w-44 aspect-square rounded-full mx-10 max-sm:mt-10 ${selectedImg && 'rounded-full'}`}
+          src={assets.logo_icon} alt="" />
       </div>
     </div>
   )

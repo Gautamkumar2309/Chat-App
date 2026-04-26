@@ -76,10 +76,10 @@ export const sendMessage = async (req, res) => {
         }
         const newMessage = await Message.create({
             senderId,
-            recevierId,
+            receiverId,
             text,
-            iamge: imageUrl
-        })
+            image: imageUrl
+        });
 
         const receiverSocketId = userSocketMap[receiverId];
         if(receiverSocketId){
